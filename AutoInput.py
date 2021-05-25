@@ -6,6 +6,17 @@ from tqdm import tqdm
 from tqdm import trange
 
 
+# 조사표 내용을 조사사진에 넣어주는 함수
+def Input_Contents(location_Row, Contents_Cycle):
+    #41,43,45,47,49
+    ws.Cells(int(location_Row)+8, 15).Value = ws.Cells(int(Contents_Cycle)+9, 41)
+    ws.Cells(int(location_Row)+8, 17).Value = ws.Cells(int(Contents_Cycle)+9, 43)
+    ws.Cells(int(location_Row)+8, 19).Value = ws.Cells(int(Contents_Cycle)+9, 45)
+    ws.Cells(int(location_Row)+8, 21).Value = ws.Cells(int(Contents_Cycle)+9, 47)
+    ws.Cells(int(location_Row)+8, 23).Value = ws.Cells(int(Contents_Cycle)+9, 49)
+    Contents_Cycle = Contents_Cycle + 1
+    return(Contents_Cycle)
+
 # 균열 이외의 유형을 표시해주는 함수
 def Display_AnothType():
     for i in range(7,500):
@@ -66,6 +77,7 @@ location_Col_1 = "B" # 고정 열
 location_Col_2 = "U" # 번호확인 함수 위치
 location_Col_3 = "O" # 설명확인 함수 위치
 Image_Cycle = 1   # 각 동의 폴더에서 넣을 사진의 순서
+Contents_Cycle =  1 # 조사표 내용이 삽입되는 순서
 
 
 for m in range(0, int(Building_Num), 1):
@@ -97,10 +109,13 @@ for m in range(0, int(Building_Num), 1):
         for i in trange(0, int(NUM), 1):
             time.sleep(0.1)
             try:
-                # 사진 삽입
+                # 사진 삽입 및 조사표 내용 삽입
                 Image_Cycle = Input_Image(location_Col_1, location_Row_1, Path, Building, m, Image_Cycle)
+                Contents_Cycle = Input_Contents(location_Row_1, Contents_Cycle)
                 Image_Cycle = Input_Image(location_Col_1, location_Row_2, Path, Building, m, Image_Cycle)
+                Contents_Cycle = Input_Contents(location_Row_2, Contents_Cycle)
                 Image_Cycle = Input_Image(location_Col_1, location_Row_3, Path, Building, m, Image_Cycle)
+                Contents_Cycle = Input_Contents(location_Row_3, Contents_Cycle)
 
 
             except:
@@ -124,11 +139,13 @@ for m in range(0, int(Building_Num), 1):
         for i in trange(0, int(NUM) ,1):
             time.sleep(0.1)
             try:
-                # 사진 삽입
+                # 사진 삽입 및 조사표 내용 삽입
                 Image_Cycle = Input_Image(location_Col_1, location_Row_1, Path, Building, m, Image_Cycle)
+                Contents_Cycle = Input_Contents(location_Row_1, Contents_Cycle)
                 Image_Cycle = Input_Image(location_Col_1, location_Row_2, Path, Building, m, Image_Cycle)
+                Contents_Cycle = Input_Contents(location_Row_2, Contents_Cycle)
                 Image_Cycle = Input_Image(location_Col_1, location_Row_3, Path, Building, m, Image_Cycle)
-
+                Contents_Cycle = Input_Contents(location_Row_3, Contents_Cycle)
 
             except:
                 print(str(Building[m]) + " " + str(Image_Cycle) + ".jpg 사진이 없습니다.")

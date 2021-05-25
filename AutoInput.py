@@ -6,6 +6,12 @@ from tqdm import tqdm
 from tqdm import trange
 
 
+# 균열 이외의 유형을 표시해주는 함수
+def Display_AnothType():
+    for i in range(7,500):
+        #ws_Survey.Cells(i,27).Value = "=A"+ str(i)
+        ws_Survey.Cells(i,28).Value = "=IF(COUNTBLANK(G"+str(i)+")=0,IF(G"+str(i)+"=\"균열\",\"\",G"+str(i)+"&\"/\"&R"+str(i)+"),\"\")"
+
 # 설명번호와 사진번호가 맞는지 확인해주는 엑셀수식을 삽입해주는 함수
 def Check_ImageNum(location_Row, location_Col):
     ws.Cells(int(location_Row)+1, 21).Value = "=IF(MID(O"+str(int(location_Row)+1)+",SEARCH(\".\",O"+str(int(location_Row)+1)+",1),3)=MID(W"+str(int(location_Row)+8)+",SEARCH(\".\",W"+str(int(location_Row)+8)+",1),3),\"\",\"번호확인\")" 
@@ -144,7 +150,7 @@ for m in range(0, int(Building_Num), 1):
             
     print(Building[m] + " 사진 삽입 완료.")
 
-
+Display_AnothType()
 print("모든 사진 삽입 완료.")
 input("종료하시려면 Enter 키를 눌러주십시오.")
 excel.Visible=True

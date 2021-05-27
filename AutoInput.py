@@ -8,20 +8,21 @@ from tqdm import trange
 
 # 조사표 내용을 조사사진에 넣어주는 함수
 def Input_Contents(location_Row, Contents_Cycle):
-    #41,43,45,47,49
+    #41,43,45,47,49    25,38
     ws.Cells(int(location_Row)+8, 15).Value = ws.Cells(int(Contents_Cycle)+9, 41)
     ws.Cells(int(location_Row)+8, 17).Value = ws.Cells(int(Contents_Cycle)+9, 43)
     ws.Cells(int(location_Row)+8, 19).Value = ws.Cells(int(Contents_Cycle)+9, 45)
     ws.Cells(int(location_Row)+8, 21).Value = ws.Cells(int(Contents_Cycle)+9, 47)
     ws.Cells(int(location_Row)+8, 23).Value = ws.Cells(int(Contents_Cycle)+9, 49)
+    ws.Cells(int(location_Row)+8, 25).Value = ws.Cells(int(Contents_Cycle)+9, 38)
     Contents_Cycle = Contents_Cycle + 1
     return(Contents_Cycle)
 
 # 균열 이외의 유형을 표시해주는 함수
-def Display_AnothType():
-    for i in range(7,500):
+#def Display_AnothType():
+    #for i in range(7,500):
         #ws_Survey.Cells(i,27).Value = "=A"+ str(i)
-        ws_Survey.Cells(i,28).Value = "=IF(COUNTBLANK(G"+str(i)+")=0,IF(G"+str(i)+"=\"균열\",\"\",G"+str(i)+"&\"/\"&R"+str(i)+"),\"\")"
+        #ws_Survey.Cells(i,28).Value = "=IF(COUNTBLANK(G"+str(i)+")=0,IF(G"+str(i)+"=\"균열\",\"\",G"+str(i)+"&\"/\"&R"+str(i)+"),\"\")"
 
 # 설명번호와 사진번호가 맞는지 확인해주는 엑셀수식을 삽입해주는 함수
 def Check_ImageNum(location_Row, location_Col):
@@ -32,7 +33,10 @@ def Check_ImageNum(location_Row, location_Col):
 
 # 설명부분 내용을 합성해주는 엑셀수식을 삽입해주는 함수
 def Combine_Explanation(location_Row, location_Col):
-    ws.Cells(int(location_Row)+4, 15).Value = "="+ location_Col + str(int(location_Row) + 8) + "&"+"\"균열\"" 
+    if(ws.Cells(int(location_Row)+8, 25).Value == "균열"):
+        ws.Cells(int(location_Row)+4, 15).Value = "="+ location_Col + str(int(location_Row) + 8) + "&"+"\"균열\"" 
+    else:
+        ws.Cells(int(location_Row)+4, 15).Value = ws.Cells(int(location_Row)+8, 25)
     return()
 
 
@@ -54,7 +58,7 @@ def Input_Image(location_Col, location_Row, Path, Building, m, Image_Cycle):
 
 # 파일 이름, 시트이름 등등을 입력받음
 file_name = input("파일 이름을 입력하세요 : ")
-Survey_Sheets_name = input("조사표 시트 이름을 입력하세요 : ")
+#Survey_Sheets_name = input("조사표 시트 이름을 입력하세요 : ")
 Sheets_name = input("조사사진 시트 이름을 입력하세요 : ")
 Building_Num = input("동의 개수를 입력하세요 : ")
 Building = [0 for z in range(int(Building_Num))]
@@ -67,7 +71,7 @@ Path = os.getcwd()
 excel = win32.gencache.EnsureDispatch('Excel.Application')
 wb = excel.Workbooks.Add(Path + "\\" + file_name + ".xlsx")
 ws = wb.Sheets(Sheets_name)
-ws_Survey = wb.Sheets(Survey_Sheets_name)
+#ws_Survey = wb.Sheets(Survey_Sheets_name)
 
 
 location_Row_1 = 3 # 페이지 내 첫번째 시작 행
@@ -167,7 +171,7 @@ for m in range(0, int(Building_Num), 1):
             
     print(Building[m] + " 사진 삽입 완료.")
 
-Display_AnothType()
+#Display_AnothType()
 print("모든 사진 삽입 완료.")
 input("종료하시려면 Enter 키를 눌러주십시오.")
 excel.Visible=True

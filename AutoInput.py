@@ -109,66 +109,38 @@ for m in range(0, int(Building_Num), 1):
             shutil.copyfile(Path + "\\" + str(Building[m]) + "\\" + str(Image_Num) + ".jpg", Path + "\\" + str(Building[m]) + "\\" + str(Image_Num+k) + ".jpg") 
 
 
-        # 사진 넣기
-        for i in trange(0, int(NUM), 1):
-            time.sleep(0.1)
-            try:
-                # 사진 삽입 및 조사표 내용 삽입
-                Image_Cycle = Input_Image(location_Col_1, location_Row_1, Path, Building, m, Image_Cycle)
-                Contents_Cycle = Input_Contents(location_Row_1, Contents_Cycle)
-                Image_Cycle = Input_Image(location_Col_1, location_Row_2, Path, Building, m, Image_Cycle)
-                Contents_Cycle = Input_Contents(location_Row_2, Contents_Cycle)
-                Image_Cycle = Input_Image(location_Col_1, location_Row_3, Path, Building, m, Image_Cycle)
-                Contents_Cycle = Input_Contents(location_Row_3, Contents_Cycle)
+    # 사진 넣기
+    for i in trange(0, int(NUM), 1):
+        time.sleep(0.1)
+        try:
+            # 사진 삽입 및 조사표 내용 삽입
+            Image_Cycle = Input_Image(location_Col_1, location_Row_1, Path, Building, m, Image_Cycle)
+            Contents_Cycle = Input_Contents(location_Row_1, Contents_Cycle)
+            Image_Cycle = Input_Image(location_Col_1, location_Row_2, Path, Building, m, Image_Cycle)
+            Contents_Cycle = Input_Contents(location_Row_2, Contents_Cycle)
+            Image_Cycle = Input_Image(location_Col_1, location_Row_3, Path, Building, m, Image_Cycle)
+            Contents_Cycle = Input_Contents(location_Row_3, Contents_Cycle)
 
 
-            except:
-                print(str(Building[m]) + " " + str(Image_Cycle) + ".jpg 사진이 없습니다.")
-                break
-            # 엑셀 수식 삽입
-            Combine_Explanation(location_Row_1,  location_Col_2)
-            Combine_Explanation(location_Row_2,  location_Col_2)
-            Combine_Explanation(location_Row_3,  location_Col_2)
-            Check_ImageNum(location_Row_1, location_Col_2)
-            Check_ImageNum(location_Row_2, location_Col_2)
-            Check_ImageNum(location_Row_3, location_Col_2)
+        except:
+            print(str(Building[m]) + " " + str(Image_Cycle) + ".jpg 사진이 없습니다.")
+            break
+        # 엑셀 수식 삽입
+        Combine_Explanation(location_Row_1,  location_Col_2)
+        Combine_Explanation(location_Row_2,  location_Col_2)
+        Combine_Explanation(location_Row_3,  location_Col_2)
+        Check_ImageNum(location_Row_1, location_Col_2)
+        Check_ImageNum(location_Row_2, location_Col_2)
+        Check_ImageNum(location_Row_3, location_Col_2)
 
 
-            location_Row_1 = Next_Location(location_Row_1)
-            location_Row_2 = Next_Location(location_Row_2)
-            location_Row_3 = Next_Location(location_Row_3)
+        location_Row_1 = Next_Location(location_Row_1)
+        location_Row_2 = Next_Location(location_Row_2)
+        location_Row_3 = Next_Location(location_Row_3)
 
 
-    else:
-        for i in trange(0, int(NUM) ,1):
-            time.sleep(0.1)
-            try:
-                # 사진 삽입 및 조사표 내용 삽입
-                Image_Cycle = Input_Image(location_Col_1, location_Row_1, Path, Building, m, Image_Cycle)
-                Contents_Cycle = Input_Contents(location_Row_1, Contents_Cycle)
-                Image_Cycle = Input_Image(location_Col_1, location_Row_2, Path, Building, m, Image_Cycle)
-                Contents_Cycle = Input_Contents(location_Row_2, Contents_Cycle)
-                Image_Cycle = Input_Image(location_Col_1, location_Row_3, Path, Building, m, Image_Cycle)
-                Contents_Cycle = Input_Contents(location_Row_3, Contents_Cycle)
-
-            except:
-                print(str(Building[m]) + " " + str(Image_Cycle) + ".jpg 사진이 없습니다.")
-                break
-
-            # 엑셀 수식 삽입      
-            Combine_Explanation(location_Row_1,  location_Col_2)
-            Combine_Explanation(location_Row_2,  location_Col_2)
-            Combine_Explanation(location_Row_3,  location_Col_2)
-            Check_ImageNum(location_Row_1, location_Col_2)
-            Check_ImageNum(location_Row_2, location_Col_2)
-            Check_ImageNum(location_Row_3, location_Col_2)            
 
 
-            location_Row_1 = Next_Location(location_Row_1)
-            location_Row_2 = Next_Location(location_Row_2)
-            location_Row_3 = Next_Location(location_Row_3)
-
-            
     print(Building[m] + " 사진 삽입 완료.")
 
 #Display_AnothType()

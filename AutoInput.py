@@ -5,6 +5,10 @@ import shutil
 from tqdm import tqdm
 from tqdm import trange
 
+# 화살표를 복사해주는 함수
+#def Input_Arrow():
+#    print("A")
+    #27,1
 
 # 조사표 내용을 조사사진에 넣어주는 함수
 def Input_Contents(location_Row, Contents_Cycle):
@@ -47,10 +51,10 @@ def Next_Location(location_Row):
 
 
 # 행, 열, 사진경로, 폴더이름, 사진 번호를 받고 사진을 해당위치에 삽입 및 다음 사진 넘버를 반환 해주는 함수
-def Input_Image(location_Col, location_Row, Path, Building, m, Image_Cycle):
+def Input_Image(location_Col, location_Row, Path, Building,  Image_Cycle):
     location = location_Col + str(location_Row)
     rng = ws.Range(location) 
-    Image_Path = Path+"\\" + str(Building[m]) + "\\" + str(Image_Cycle) + ".jpg" 
+    Image_Path = Path+"\\" + str(Building) + "\\" + str(Image_Cycle) + ".jpg" 
     image = ws.Shapes.AddPicture(Image_Path, False,True, rng.Left, rng.Top, 247.68, 184.28)
     Image_Cycle = Image_Cycle + 1
     return(Image_Cycle) 
@@ -59,36 +63,36 @@ def Input_Image(location_Col, location_Row, Path, Building, m, Image_Cycle):
 # 파일 이름, 시트이름 등등을 입력받음
 file_name = input("파일 이름을 입력하세요 : ")
 #Survey_Sheets_name = input("조사표 시트 이름을 입력하세요 : ")
-Sheets_name = input("조사사진 시트 이름을 입력하세요 : ")
+
 Building_Num = input("동의 개수를 입력하세요 : ")
-Building = [0 for z in range(int(Building_Num))]
-for n in range(0,int(Building_Num),1):
-    Building[n] = input("동의 이름을 입력하세요 : ")
+
+for Q in range(0,int(Building_Num),1):
+    Sheets_name = input("조사사진 시트 이름을 입력하세요 : ") 
+    Building = input("동의 이름을 입력하세요 : ")
 
 
-# 실행파일이 있는 위치에 있는 엑셀 양식 파일, 엑셀 시트 열기
-Path = os.getcwd()
-excel = win32.gencache.EnsureDispatch('Excel.Application')
-wb = excel.Workbooks.Add(Path + "\\" + file_name + ".xlsx")
-ws = wb.Sheets(Sheets_name)
-#ws_Survey = wb.Sheets(Survey_Sheets_name)
+    # 실행파일이 있는 위치에 있는 엑셀 양식 파일, 엑셀 시트 열기
+    Path = os.getcwd()
+    excel = win32.gencache.EnsureDispatch('Excel.Application')
+    wb = excel.Workbooks.Open(Path + "\\" + file_name + ".xlsx")
+    ws = wb.Sheets(Sheets_name)
+    #ws_Survey = wb.Sheets(Survey_Sheets_name)
 
 
-location_Row_1 = 3 # 페이지 내 첫번째 시작 행
-location_Row_2 = 13 # 페이지 내 두번쨰 시작 행
-location_Row_3 = 23 # 페이지 내 세번째 시작 행
-location_Col_1 = "B" # 고정 열
-location_Col_2 = "U" # 번호확인 함수 위치
-location_Col_3 = "O" # 설명확인 함수 위치
-Image_Cycle = 1   # 각 동의 폴더에서 넣을 사진의 순서
-Contents_Cycle =  1 # 조사표 내용이 삽입되는 순서
+    location_Row_1 = 3 # 페이지 내 첫번째 시작 행
+    location_Row_2 = 13 # 페이지 내 두번쨰 시작 행
+    location_Row_3 = 23 # 페이지 내 세번째 시작 행
+    location_Col_1 = "B" # 고정 열
+    location_Col_2 = "U" # 번호확인 함수 위치
+    location_Col_3 = "O" # 설명확인 함수 위치
+    Image_Cycle = 1   # 각 동의 폴더에서 넣을 사진의 순서
+    Contents_Cycle =  1 # 조사표 내용이 삽입되는 순서
 
 
-for m in range(0, int(Building_Num), 1):
-    
+        
 
     # 각 동의 폴더에서 .jpg로 끝나는 파일 리스트 만들기
-    file_list = os.listdir(Path + "\\" + str(Building[m]))
+    file_list = os.listdir(Path + "\\" + str(Building))
     file_list_jpg = [file for file in file_list if file.endswith(".jpg") or file.endswith("JPG")]   
 
 
@@ -106,7 +110,7 @@ for m in range(0, int(Building_Num), 1):
         
         #사진 갯수가 3의 배수가 아니면 마지막 사진을 그다음번호로 복사함 
         for k in range(1, NUM_1+1, 1):
-            shutil.copyfile(Path + "\\" + str(Building[m]) + "\\" + str(Image_Num) + ".jpg", Path + "\\" + str(Building[m]) + "\\" + str(Image_Num+k) + ".jpg") 
+            shutil.copyfile(Path + "\\" + str(Building) + "\\" + str(Image_Num) + ".jpg", Path + "\\" + str(Building) + "\\" + str(Image_Num+k) + ".jpg") 
 
 
     # 사진 넣기
@@ -114,16 +118,16 @@ for m in range(0, int(Building_Num), 1):
         time.sleep(0.1)
         try:
             # 사진 삽입 및 조사표 내용 삽입
-            Image_Cycle = Input_Image(location_Col_1, location_Row_1, Path, Building, m, Image_Cycle)
+            Image_Cycle = Input_Image(location_Col_1, location_Row_1, Path, Building, Image_Cycle)
             Contents_Cycle = Input_Contents(location_Row_1, Contents_Cycle)
-            Image_Cycle = Input_Image(location_Col_1, location_Row_2, Path, Building, m, Image_Cycle)
+            Image_Cycle = Input_Image(location_Col_1, location_Row_2, Path, Building,  Image_Cycle)
             Contents_Cycle = Input_Contents(location_Row_2, Contents_Cycle)
-            Image_Cycle = Input_Image(location_Col_1, location_Row_3, Path, Building, m, Image_Cycle)
+            Image_Cycle = Input_Image(location_Col_1, location_Row_3, Path, Building, Image_Cycle)
             Contents_Cycle = Input_Contents(location_Row_3, Contents_Cycle)
 
 
         except:
-            print(str(Building[m]) + " " + str(Image_Cycle) + ".jpg 사진이 없습니다.")
+            print(str(Building) + " " + str(Image_Cycle) + ".jpg 사진이 없습니다.")
             break
         # 엑셀 수식 삽입
         Combine_Explanation(location_Row_1,  location_Col_2)
@@ -141,7 +145,9 @@ for m in range(0, int(Building_Num), 1):
 
 
 
-    print(Building[m] + " 사진 삽입 완료.")
+    print(Building + " 사진 삽입 완료.")
+    #wb.Save()
+    #excel.Quit()
 
 #Display_AnothType()
 print("모든 사진 삽입 완료.")

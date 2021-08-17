@@ -6,9 +6,8 @@ from tqdm import tqdm
 from tqdm import trange
 
 # 화살표를 복사해주는 함수
-#def Input_Arrow():
-#    print("A")
-    #27,1
+def Input_Arrow(location_Row):
+  ws.Range("Z1:AF4").Copy(ws.Range("U"+str(location_Row)))
 
 # 조사표 내용을 조사사진에 넣어주는 함수
 def Input_Contents(location_Row, Contents_Cycle):
@@ -21,12 +20,6 @@ def Input_Contents(location_Row, Contents_Cycle):
     ws.Cells(int(location_Row)+8, 25).Value = ws.Cells(int(Contents_Cycle)+9, 38)
     Contents_Cycle = Contents_Cycle + 1
     return(Contents_Cycle)
-
-# 균열 이외의 유형을 표시해주는 함수
-#def Display_AnothType():
-    #for i in range(7,500):
-        #ws_Survey.Cells(i,27).Value = "=A"+ str(i)
-        #ws_Survey.Cells(i,28).Value = "=IF(COUNTBLANK(G"+str(i)+")=0,IF(G"+str(i)+"=\"균열\",\"\",G"+str(i)+"&\"/\"&R"+str(i)+"),\"\")"
 
 # 설명번호와 사진번호가 맞는지 확인해주는 엑셀수식을 삽입해주는 함수
 def Check_ImageNum(location_Row, location_Col):
@@ -117,13 +110,16 @@ for Q in range(0,int(Building_Num),1):
     for i in trange(0, int(NUM), 1):
         time.sleep(0.1)
         try:
-            # 사진 삽입 및 조사표 내용 삽입
+            # 사진, 화살표 삽입 및 조사표 내용 삽입
             Image_Cycle = Input_Image(location_Col_1, location_Row_1, Path, Building, Image_Cycle)
             Contents_Cycle = Input_Contents(location_Row_1, Contents_Cycle)
+            Input_Arrow(location_Row_1)
             Image_Cycle = Input_Image(location_Col_1, location_Row_2, Path, Building,  Image_Cycle)
             Contents_Cycle = Input_Contents(location_Row_2, Contents_Cycle)
+            Input_Arrow(location_Row_2)
             Image_Cycle = Input_Image(location_Col_1, location_Row_3, Path, Building, Image_Cycle)
             Contents_Cycle = Input_Contents(location_Row_3, Contents_Cycle)
+            Input_Arrow(location_Row_3)
 
 
         except:
